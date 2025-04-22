@@ -160,3 +160,43 @@ footer {
   box-shadow: none;
   padding: 0;
 }
+
+@media (max-width: 700px) {
+  #mainContainer {
+    flex-direction: column;
+    gap: 0;
+  }
+  /* Reorder columns: middle (grid) first, then left, then right */
+  #gridContainer {
+    order: 1;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .column.align-to-grid {
+    order: 2;
+    width: 100%;
+    margin-top: 0;
+  }
+  .column:not(#gridContainer):not(.align-to-grid) {
+    order: 3;
+    width: 100%;
+    margin-top: 0;
+  }
+  #wordGrid {
+    width: 100vw;
+    min-width: 0;
+    border-spacing: 4vw;
+  }
+  #wordGrid td {
+    width: 22vw;
+    height: 22vw;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 100px;
+    max-height: 100px;
+    font-size: 1.2rem;
+  }
+  #wordGrid input {
+    font-size: clamp(1.1rem, 6vw, 2rem);
+  }
+}
