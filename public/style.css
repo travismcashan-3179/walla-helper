@@ -1,0 +1,162 @@
+/* Reset & Base */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: #fafafa;
+  color: #333;
+  padding: 20px;
+}
+h2 { 
+  text-align: center; 
+  font-weight: 700; 
+  font-size: 1.6rem; 
+  margin-bottom: 20px; 
+}
+
+/* Three-column layout */
+#mainContainer {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.column {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Left Column: Grid */
+#gridContainer {
+  margin-bottom: 20px;
+}
+#wordGrid {
+  border-collapse: separate;
+  border-spacing: 10px;
+  width: 100%;
+}
+#wordGrid td {
+  vertical-align: middle;
+  text-align: center;
+  background: #27ae60;
+  color: #fff;
+  box-shadow: 0 4px 0 0 #1e8449;
+  border-radius: 8px;
+  border: none;
+  width: 100px;
+  height: 100px;
+  padding: 0;
+}
+.cellContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#wordGrid input {
+  width: 90%;
+  height: 50%;
+  font-size: clamp(1.2rem, 6vw, calc(2.2rem - 0.2ch * (var(--input-length, 1) - 1)));
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #fff;
+  transition: font-size 0.2s;
+}
+
+/* Middle Column: Sentences & Word Details */
+#sentencesPanel, #wordDetailsPanel {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+#sentencesPanel {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+.sentence-group { margin-bottom: 15px; }
+.sentence-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; }
+.sentencesText { white-space: pre-wrap; font-size: 1rem; line-height: 1.4; }
+#verticalSentences ol,
+#horizontalSentences ol {
+  margin-left: 20px;
+}
+
+/* Analyze Button Container in Middle Column */
+#analyzeButtonContainer {
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Right Column: AI Helper Analysis */
+#aiAnalyzerPanel {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+#aiAnalyzerPanel h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+#aiAnalyzerPanel input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* Button styles */
+button {
+  display: inline-block;
+  margin: 10px 5px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Tag styling for synonyms */
+.tag {
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin: 2px;
+  cursor: pointer;
+  background-color: #eee;
+  font-size: 0.9rem;
+}
+
+/* Word Type Display: light grey text */
+.wordTypeDisplay {
+  font-size: 0.8rem;
+  color: #102d14;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+#gridContainer > div[style*="margin-bottom:10px;"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.align-to-grid {
+  margin-top: 50px;
+}
+
+/* Remove background, border, and shadow from AI Helper content if needed */
+#aiAnalyzerPanel, .align-to-grid#aiAnalyzerPanel {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
