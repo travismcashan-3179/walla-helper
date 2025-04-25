@@ -283,8 +283,18 @@ async function analyzeWord(cell) {
   const horizontalContext = getRowContext(rowIndex, colIndex);
   const verticalContext = getColContext(rowIndex, colIndex);
 
-  // Prompt for AI to infer POS and suggest intersection words
-  const prompt = `Given the following vertical phrase: "${verticalContext}"\nand the following horizontal sentence: "${horizontalContext}"\nWhat is the most likely part of speech needed for the blank (___) in each context?\nIf they differ, list 5 English words that can function as both parts of speech. Format your answer as:\nVertical POS: ...\nHorizontal POS: ...\nIntersection: ...`;
+  // Improved prompt for AI
+  const prompt = `Given the following vertical phrase: "${verticalContext}"
+and the following horizontal sentence: "${horizontalContext}"
+What is the most likely part of speech needed for the blank (___) in each context?
+Suggest 5 English words that can function as both parts of speech AND make sense in both contexts. For each word, explain briefly why it fits both the vertical and horizontal context.
+Format your answer as:
+Vertical POS: ...
+Horizontal POS: ...
+Intersection:
+- word1: explanation
+- word2: explanation
+...`;
 
   const analysisDiv = document.getElementById("openaiAnalysis");
   analysisDiv.innerHTML = "<em>Analyzing intersection...</em>";
