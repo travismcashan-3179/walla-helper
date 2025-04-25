@@ -277,24 +277,27 @@ async function analyzeWord(cell) {
     for (let i = 0; i < rows; i++) {
       colArr.push(i === r ? "___" : document.getElementById(`cell-${i}-${c}`).value.trim() || "____");
     }
-    return colArr.join(", ");
+    return colArr.join(" ");
   }
 
   const horizontalContext = getRowContext(rowIndex, colIndex);
   const verticalContext = getColContext(rowIndex, colIndex);
 
-  // Improved prompt for AI
-  const prompt = `Given the following vertical phrase: "${verticalContext}"
-and the following horizontal sentence: "${horizontalContext}"
-What is the most likely part of speech needed for the blank (___) in each context?
-Suggest 5 English words that can function as both parts of speech AND make sense in both contexts. For each word, explain briefly why it fits both the vertical and horizontal context.
+  // Improved prompt for AI: test words in both sentences
+  const prompt = `Given the following two sentences with a blank:
+
+Vertical: ${verticalContext}
+Horizontal: ${horizontalContext}
+
+Suggest up to 5 English words that, when placed in the blank, result in both sentences being natural and readable. For each word, show both sentences with the word filled in, and briefly explain why it fits both contexts. Only include words that make sense in both sentences.
+
 Format your answer as:
-Vertical POS: ...
-Horizontal POS: ...
-Intersection:
-- word1: explanation
-- word2: explanation
-...`;
+- word1:
+  trust word1 hearts and need
+  sweat word1 friends.
+  Explanation: ...
+- word2:
+  ...`;
 
   const analysisDiv = document.getElementById("openaiAnalysis");
   analysisDiv.innerHTML = "<em>Analyzing intersection...</em>";
