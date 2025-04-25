@@ -263,33 +263,32 @@ async function analyzeWord(cell) {
   const parts = cell.id.split("-");
   const rowIndex = parseInt(parts[1]);
   const colIndex = parseInt(parts[2]);
-  
-  function getRowSentence(r) {
+
+  // Gather vertical and horizontal context with ___ for the current cell
+  function getRowContext(r, c) {
     let rowArr = [];
-    for (let c = 0; c < cols; c++) {
-      rowArr.push(document.getElementById(`cell-${r}-${c}`).value.trim());
+    for (let i = 0; i < cols; i++) {
+      rowArr.push(i === c ? "___" : document.getElementById(`cell-${r}-${i}`).value.trim() || "____");
     }
     return rowArr.join(" ");
   }
-  function getColumnSentence(c) {
+  function getColContext(r, c) {
     let colArr = [];
-    for (let r = 0; r < rows; r++) {
-      colArr.push(document.getElementById(`cell-${r}-${c}`).value.trim());
+    for (let i = 0; i < rows; i++) {
+      colArr.push(i === r ? "___" : document.getElementById(`cell-${i}-${c}`).value.trim() || "____");
     }
-    return colArr.join(" ");
+    return colArr.join(", ");
   }
-  
-  const horizontalSentence = getRowSentence(rowIndex);
-  const verticalSentence = getColumnSentence(colIndex);
-  
-  const prompt = `Analyze the word "${word}" in the following contexts:
-Vertical sentence: "${verticalSentence}"
-Horizontal sentence: "${horizontalSentence}"
-Provide a brief summary of your thoughts about the word in these contexts, then list 3-5 alternative word suggestions under the heading "Alternatives:" to improve both sentences.`;
-  
+
+  const horizontalContext = getRowContext(rowIndex, colIndex);
+  const verticalContext = getColContext(rowIndex, colIndex);
+
+  // Prompt for AI to infer POS and suggest intersection words
+  const prompt = `Given the following vertical phrase: "${verticalContext}"\nand the following horizontal sentence: "${horizontalContext}"\nWhat is the most likely part of speech needed for the blank (___) in each context?\nIf they differ, list 5 English words that can function as both parts of speech. Format your answer as:\nVertical POS: ...\nHorizontal POS: ...\nIntersection: ...`;
+
   const analysisDiv = document.getElementById("openaiAnalysis");
-  analysisDiv.innerHTML = "<em>Analyzing...</em>";
-  
+  analysisDiv.innerHTML = "<em>Analyzing intersection...</em>";
+
   try {
     const response = await fetch("/api/openai", {
       method: "POST",
@@ -298,13 +297,13 @@ Provide a brief summary of your thoughts about the word in these contexts, then 
     });
     const data = await response.json();
     if (data.choices && data.choices.length > 0) {
-      analysisDiv.innerHTML = `<strong>OpenAI Analysis:</strong><br>${data.choices[0].message.content.replace(/\n/g, "<br>")}`;
+      analysisDiv.innerHTML = `<strong>Intersection Analysis:</strong><br>${data.choices[0].message.content.replace(/\n/g, "<br>")}`;
     } else {
-      analysisDiv.innerHTML = "<strong>OpenAI Analysis:</strong><br>No response returned.";
+      analysisDiv.innerHTML = "<strong>Intersection Analysis:</strong><br>No response returned.";
     }
   } catch (error) {
     console.error("Error calling OpenAI API:", error);
-    analysisDiv.innerHTML = "<strong>OpenAI Analysis:</strong><br>Error calling API.";
+    analysisDiv.innerHTML = "<strong>Intersection Analysis:</strong><br>Error calling API.";
   }
 }
 
